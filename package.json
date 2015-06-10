@@ -1,0 +1,6 @@
+{
+    "main": "comic/main.js",
+    "dependencies": {
+        "tabris": "^1.0.0"
+    }
+}
