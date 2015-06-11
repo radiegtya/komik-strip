@@ -26,7 +26,14 @@ createViewPage = function(obj) {
         layoutData: {top: 15, right: 10, width: 25, height: 25},
         image: {src: "images/next.png"},
     }).on("tap", function(target) {
-        console.log('next tapped')
+        goToPage(Number(obj.fields.number) + 1);
+    }).appendTo(footerComposite);
+
+    //footer currentpage
+    var currPageText = tabris.create("TextView", {
+        layoutData: {top: 15, right: [nextImage, 10], width: 25, height: 25},
+        text: "#" + obj.fields.number,
+        textColor: "white"
     }).appendTo(footerComposite);
 
     //footer prev image, onclick go to prev chapter
@@ -34,7 +41,7 @@ createViewPage = function(obj) {
         layoutData: {top: 15, right: [nextImage, 50], width: 25, height: 25},
         image: {src: "images/prev.png"},
     }).on("tap", function(target) {
-
+        goToPage(Number(obj.fields.number) - 1);
     }).appendTo(footerComposite);
 
     scrollView.on("resize", function(widget, bounds) {
@@ -62,6 +69,40 @@ createViewPage = function(obj) {
 
     return page;
 }
+
+function goToPage(number) {
+    var xhr = new tabris.XMLHttpRequest();
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === xhr.DONE) {
+            var models = JSON.parse(xhr.responseText).data;
+
+            if (models[0])
+                createViewPage(models[0]).open();
+            else
+                window.plugins.toast.showShortCenter("Maaf, halaman tidak ditemukan");
+        }
+    };
+    xhr.open("GET", "http://128.199.228.15:5001/api/v1/categories/the-muslim-show/catalogs/?key=a110568402c460bb91f2695d4052fe7b9fe6cb26&number=" + number);
+    xhr.send();
+}
+
+
+//function checkPage(number) {
+//    var xhr = new tabris.XMLHttpRequest();
+//    xhr.onreadystatechange = function() {
+//        if (xhr.readyState === xhr.DONE) {
+//            var models = JSON.parse(xhr.responseText).data;
+//
+//            if (models[0]){
+//                console.log(models[0])
+//                return true;
+//            }
+//            return false;
+//        }
+//    };
+//    xhr.open("GET", "http://128.199.228.15:5001/api/v1/categories/the-muslim-show/catalogs/?key=a110568402c460bb91f2695d4052fe7b9fe6cb26&number=" + number);
+//    xhr.send();
+//}
 
 function getIP() {
     if (window.XMLHttpRequest)
