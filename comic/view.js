@@ -71,6 +71,11 @@ createViewPage = function(obj) {
 }
 
 function goToPage(number) {
+    if(number == 0){
+        window.plugins.toast.showShortCenter("Maaf, halaman tidak ditemukan");
+        return false;
+    }
+    
     var xhr = new tabris.XMLHttpRequest();
     xhr.onreadystatechange = function() {
         if (xhr.readyState === xhr.DONE) {

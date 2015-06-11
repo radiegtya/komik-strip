@@ -29,5 +29,6 @@
     
     <preference name="SplashScreenDelay" value="10000" />
   
+    <gap:plugin name="org.apache.cordova.splashscreen" />  
     <gap:plugin name="nl.x-services.plugins.toast" />  
 </widget>
