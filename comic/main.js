@@ -1,5 +1,8 @@
+var viewModule = require("./view.js");
+var commentModule = require("./comment.js");
 var moment = require('moment');
 
+var MARGIN_X_SMALL = 2;
 var MARGIN_SMALL = 4;
 var MARGIN = 8;
 
@@ -29,7 +32,7 @@ var descTextView = tabris.create("TextView", {
     layoutData: {left: 30, top: [titleTextView, 5]},
     markupEnabled: true,
     text: "",
-    textColor: "white",
+    textColor: "black",
 }).appendTo(scrollView);
 
 scrollView.on("resize", function(widget, bounds) {
@@ -46,7 +49,6 @@ scrollView.on("resize", function(widget, bounds) {
                 background: "white"
             }).appendTo(scrollView);
 
-            var i = dataCount;
             //create comic chapters instances
             tabris.create("CollectionView", {
                 layoutData: {left: 0, top: [bgImageView, 0]},
@@ -54,26 +56,25 @@ scrollView.on("resize", function(widget, bounds) {
                 itemHeight: collectionViewHeight,
                 initializeCell: function(cell) {
                     var imageView = tabris.create("ImageView", {
-                        layoutData: {left: 0, top: 0, width: 100, height: 100}
+                        layoutData: {left: 0, top: 0}
                     }).appendTo(cell);
                     var titleTextView = tabris.create("TextView", {
                         layoutData: {left: [imageView, 10], top: MARGIN_SMALL},
-                        font: "20px sans-serif",
+                        font: "18px sans-serif",
                     }).appendTo(cell);
                     var numberTextView = tabris.create("TextView", {
                         layoutData: {right: MARGIN_SMALL, top: MARGIN_SMALL},
-                        font: "20px sans-serif",
+                        font: "18px sans-serif",
                     }).appendTo(cell);
                     var dateTextView = tabris.create("TextView", {
-                        layoutData: {left: [imageView, 10], top: [titleTextView, MARGIN_SMALL]},
+                        layoutData: {left: [imageView, 10], top: [titleTextView, MARGIN_X_SMALL]},
                         font: "12px sans-serif",
                     }).appendTo(cell);
                     cell.on("change:item", function(widget, model) {
                         imageView.set("image", {src: model.image});
                         titleTextView.set("text", model.title);
-                        numberTextView.set("text", "#" + i);
+                        numberTextView.set("text", "#" + model.fields.number);
                         dateTextView.set("text", moment(model.createdAt).format('ll'));
-                        i--;
                     });
                 }
             }).on("select", function(target, obj) {
@@ -104,50 +105,3 @@ scrollView.on("scroll", function(widget, offset) {
 });
 
 page.open();
-
-function createViewPage(obj) {
-    var page = tabris.create("Page", {
-        title: obj.title
-    });
-
-    var scrollView = tabris.create("ScrollView", {
-        layoutData: {left: 0, right: 0, top: 0, bottom: 0}
-    }).appendTo(page);
-
-    //create footer
-    var footerComposite = tabris.create('Composite', {
-        layoutData: {bottom: 0, left: 0, right: 0, height: 50},
-        background: "black"
-    }).appendTo(page);
-    tabris.create("TextView", {
-        layoutData: {top: [footerComposite, 10], left: 0},
-        text: "test",
-        textColor: "white"
-    }).appendTo(footerComposite);
-
-    scrollView.on("resize", function(widget, bounds) {
-        var xhr = new tabris.XMLHttpRequest();
-        xhr.onreadystatechange = function() {
-            if (xhr.readyState === xhr.DONE) {
-                var models = JSON.parse(xhr.responseText).data;
-
-                //content for collectionView comic pages
-                var contentComposite = tabris.create("Composite", {
-                    layoutData: {left: 0, right: 0, top: 0, bottom: 0},
-                    background: "white"
-                }).appendTo(scrollView);
-
-                //display comic image to webview
-                tabris.create("WebView", {
-                    layoutData: {left: 0, top: 0, right: 0, bottom: [footerComposite, 10]},
-                    url: models[0].image,
-                }).appendTo(contentComposite);
-            }
-        };
-        xhr.open("GET", "http://128.199.228.15:5001/api/v1/catalogs/" + obj._id + "/photos/?key=a110568402c460bb91f2695d4052fe7b9fe6cb26&limit=1");
-        xhr.send();
-    });
-
-    return page;
-}
-      
