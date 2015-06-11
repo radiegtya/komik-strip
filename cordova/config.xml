@@ -5,13 +5,35 @@
     xmlns="http://www.w3.org/ns/widgets"
     xmlns:cdv="http://cordova.apache.org/ns/1.0"
     version="1.0.0">
-  <name>The Muslim Show Indonesia</name>
-  <description>
-    The Muslim Show Indonesia kini hadir di ponsel Android Anda.
-  </description>
-  <author email="radiegtya@gmail.com" href="https://www.facebook.com/muslimshowindonesiamobile">
-    The Muslim Show Indonesia on Mobile
-  </author>
+    <name>The Muslim Show Indonesia</name>
+    <description>
+        The Muslim Show Indonesia kini hadir di ponsel Android Anda.
+    </description>
+    <author email="radiegtya@gmail.com" href="https://www.facebook.com/muslimshowindonesiamobile">
+        The Muslim Show Indonesia on Mobile
+    </author>
   
-  <gap:plugin name="nl.x-services.plugins.toast" />  
+    <platform name="android">
+        <icon src="icons/android/ldpi.png" density="ldpi" /> 
+        <icon src="icons/android/mdpi.png" density="mdpi" />
+        <icon src="icons/android/hdpi.png" density="hdpi" />
+        <icon src="icons/android/xhdpi.png" density="xhdpi" />
+    </platform>
+    
+    <platform name="android">
+        <!-- you can use any density that exists in the Android project -->
+        <splash src="splash/android/splash-land-hdpi.png" density="land-hdpi"/>
+        <splash src="splash/android/splash-land-ldpi.png" density="land-ldpi"/>
+        <splash src="splash/android/splash-land-mdpi.png" density="land-mdpi"/>
+        <splash src="splash/android/splash-land-xhdpi.png" density="land-xhdpi"/>
+
+        <splash src="splash/android/splash-port-hdpi.png" density="port-hdpi"/>
+        <splash src="splash/android/splash-port-ldpi.png" density="port-ldpi"/>
+        <splash src="splash/android/splash-port-mdpi.png" density="port-mdpi"/>
+        <splash src="splash/android/splash-port-xhdpi.png" density="port-xhdpi"/>
+    </platform>
+    
+    <preference name="SplashScreenDelay" value="10000" />
+  
+    <gap:plugin name="nl.x-services.plugins.toast" />  
 </widget>
