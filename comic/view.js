@@ -31,7 +31,7 @@ createViewPage = function(obj) {
 
     //footer currentpage
     var currPageText = tabris.create("TextView", {
-        layoutData: {top: 15, right: [nextImage, 10], width: 25, height: 25},
+        layoutData: {top: 15, right: [nextImage, 10], width: 30, height: 25},
         text: "#" + obj.fields.number,
         textColor: "white"
     }).appendTo(footerComposite);

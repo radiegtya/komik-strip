@@ -13,6 +13,6 @@ createCommentPage = function(obj) {
 }
 
 function getUrlComment(identifier, shortname) {
-    return "http://192.168.1.178/disqus-embed/index.php?identifier=" + identifier + "&shortname=" + shortname;
+    return "http://piyiku.biz/disqus?identifier=" + identifier + "&shortname=" + shortname;
 }
       

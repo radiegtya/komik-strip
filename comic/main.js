@@ -82,7 +82,7 @@ scrollView.on("resize", function(widget, bounds) {
             }).appendTo(contentComposite);
         }
     };
-    xhr2.open("GET", "http://128.199.228.15:5001/api/v1/categories/the-muslim-show/catalogs/?key=a110568402c460bb91f2695d4052fe7b9fe6cb26");
+    xhr2.open("GET", "http://128.199.228.15:5001/api/v1/categories/the-muslim-show/catalogs/?key=a110568402c460bb91f2695d4052fe7b9fe6cb26&limit=1000");
     xhr2.send();
 
     var xhr = new tabris.XMLHttpRequest();
