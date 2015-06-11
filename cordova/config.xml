@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='utf-8'?>
+<widget 
+    id="the.muslim.show.indonesia" 
+    xmlns:gap="http://phonegap.com/ns/1.0"
+    xmlns="http://www.w3.org/ns/widgets"
+    xmlns:cdv="http://cordova.apache.org/ns/1.0"
+    version="1.0.0">
+  <name>The Muslim Show Indonesia</name>
+  <description>
+    The Muslim Show Indonesia kini hadir di ponsel Android Anda.
+  </description>
+  <author email="radiegtya@gmail.com" href="https://www.facebook.com/muslimshowindonesiamobile">
+    The Muslim Show Indonesia on Mobile
+  </author>
+  
+  <gap:plugin name="nl.x-services.plugins.toast" />  
+</widget>
