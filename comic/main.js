@@ -1,10 +1,16 @@
 var viewModule = require("./view.js");
 var commentModule = require("./comment.js");
+var apiModule = require('../api/config.js');
 var moment = require('moment');
 
 var MARGIN_X_SMALL = 2;
 var MARGIN_SMALL = 4;
 var MARGIN = 8;
+
+//check if app online or not
+if(navigator.onLine == false){
+    window.plugins.toast.showShortCenter("Maaf, Anda harus online untuk menggunakan aplikasi ini");
+}
 
 var page = tabris.create("Page", {
     topLevel: true,
@@ -81,8 +87,8 @@ scrollView.on("resize", function(widget, bounds) {
                 createViewPage(obj).open();
             }).appendTo(contentComposite);
         }
-    };
-    xhr2.open("GET", "http://128.199.228.15:5001/api/v1/categories/the-muslim-show/catalogs/?key=a110568402c460bb91f2695d4052fe7b9fe6cb26&limit=1000");
+    };    
+    xhr2.open("GET", Api.getUrl('categories/the-muslim-show/catalogs', {limit: 1000}));
     xhr2.send();
 
     var xhr = new tabris.XMLHttpRequest();
@@ -96,7 +102,7 @@ scrollView.on("resize", function(widget, bounds) {
             bgImageView.set("image", {src: image, width: bounds.width, height: bounds.width});
         }
     };
-    xhr.open("GET", "http://128.199.228.15:5001/api/v1/categories/the-muslim-show/?key=a110568402c460bb91f2695d4052fe7b9fe6cb26");
+    xhr.open("GET", Api.getUrl('categories/the-muslim-show'));
     xhr.send();
 });
 

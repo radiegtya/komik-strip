@@ -4,8 +4,33 @@ createViewPage = function(obj) {
     });
 
     var scrollView = tabris.create("ScrollView", {
-        layoutData: {left: 0, right: 0, top: 0, bottom: 0}
+        layoutData: {left: 0, right: 0, top: 0, bottom: 50}
     }).appendTo(page);
+
+    scrollView.on("resize", function(widget, bounds) {
+        var xhr = new tabris.XMLHttpRequest();
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === xhr.DONE) {
+                var models = JSON.parse(xhr.responseText).data;
+
+                //content for collectionView comic pages
+                var contentComposite = tabris.create("Composite", {
+                    layoutData: {left: 0, right: 0, top: 0, bottom: 50},
+                    background: "white"
+                }).appendTo(scrollView);
+
+                //display comic image to webview
+                var contentWebView = tabris.create("WebView", {
+                    layoutData: {left: 0, top: 0, right: 0},
+                    url: models[0].image,
+                }).appendTo(contentComposite);
+
+
+            }
+        };
+        xhr.open("GET", Api.getUrl("catalogs/" + obj._id + "/photos", {limit: 1}));
+        xhr.send();
+    });
 
     //create footer
     var footerComposite = tabris.create('Composite', {
@@ -44,38 +69,15 @@ createViewPage = function(obj) {
         goToPage(Number(obj.fields.number) - 1);
     }).appendTo(footerComposite);
 
-    scrollView.on("resize", function(widget, bounds) {
-        var xhr = new tabris.XMLHttpRequest();
-        xhr.onreadystatechange = function() {
-            if (xhr.readyState === xhr.DONE) {
-                var models = JSON.parse(xhr.responseText).data;
-
-                //content for collectionView comic pages
-                var contentComposite = tabris.create("Composite", {
-                    layoutData: {left: 0, right: 0, top: 0, bottom: 0},
-                    background: "white"
-                }).appendTo(scrollView);
-
-                //display comic image to webview
-                tabris.create("WebView", {
-                    layoutData: {left: 0, top: 0, right: 0, bottom: [footerComposite, 10]},
-                    url: models[0].image,
-                }).appendTo(contentComposite);
-            }
-        };
-        xhr.open("GET", "http://128.199.228.15:5001/api/v1/catalogs/" + obj._id + "/photos/?key=a110568402c460bb91f2695d4052fe7b9fe6cb26&limit=1");
-        xhr.send();
-    });
-
     return page;
 }
 
 function goToPage(number) {
-    if(number == 0){
+    if (number == 0) {
         window.plugins.toast.showShortCenter("Maaf, halaman tidak ditemukan");
         return false;
     }
-    
+
     var xhr = new tabris.XMLHttpRequest();
     xhr.onreadystatechange = function() {
         if (xhr.readyState === xhr.DONE) {
@@ -87,7 +89,7 @@ function goToPage(number) {
                 window.plugins.toast.showShortCenter("Maaf, halaman tidak ditemukan");
         }
     };
-    xhr.open("GET", "http://128.199.228.15:5001/api/v1/categories/the-muslim-show/catalogs/?key=a110568402c460bb91f2695d4052fe7b9fe6cb26&number=" + number);
+    xhr.open("GET", Api.getUrl("categories/the-muslim-show/catalogs", {number: number}));
     xhr.send();
 }
 
