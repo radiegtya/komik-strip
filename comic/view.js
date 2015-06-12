@@ -11,21 +11,23 @@ createViewPage = function(obj) {
         var xhr = new tabris.XMLHttpRequest();
         xhr.onreadystatechange = function() {
             if (xhr.readyState === xhr.DONE) {
-                var models = JSON.parse(xhr.responseText).data;
+                if (xhr.responseText) {
+                    var models = JSON.parse(xhr.responseText).data;
 
-                //content for collectionView comic pages
-                var contentComposite = tabris.create("Composite", {
-                    layoutData: {left: 0, right: 0, top: 0, bottom: 50},
-                    background: "white"
-                }).appendTo(scrollView);
+                    //content for collectionView comic pages
+                    var contentComposite = tabris.create("Composite", {
+                        layoutData: {left: 0, right: 0, top: 0, bottom: 50},
+                        background: "white"
+                    }).appendTo(scrollView);
 
-                //display comic image to webview
-                var contentWebView = tabris.create("WebView", {
-                    layoutData: {left: 0, top: 0, right: 0},
-                    url: models[0].image,
-                }).appendTo(contentComposite);
-
-
+                    //display comic image to webview
+                    var contentWebView = tabris.create("WebView", {
+                        layoutData: {left: 0, top: 0, right: 0},
+                        url: models[0].image,
+                    }).appendTo(contentComposite);
+                } else {
+                    window.plugins.toast.showShortCenter("Maaf, Silakan cek koneksi internet Anda.");
+                }
             }
         };
         xhr.open("GET", Api.getUrl("catalogs/" + obj._id + "/photos", {limit: 1}));
@@ -81,12 +83,16 @@ function goToPage(number) {
     var xhr = new tabris.XMLHttpRequest();
     xhr.onreadystatechange = function() {
         if (xhr.readyState === xhr.DONE) {
-            var models = JSON.parse(xhr.responseText).data;
+            if (xhr.responseText) {
+                var models = JSON.parse(xhr.responseText).data;
 
-            if (models[0])
-                createViewPage(models[0]).open();
-            else
-                window.plugins.toast.showShortCenter("Maaf, halaman tidak ditemukan");
+                if (models[0])
+                    createViewPage(models[0]).open();
+                else
+                    window.plugins.toast.showShortCenter("Maaf, halaman tidak ditemukan");
+            } else {
+                window.plugins.toast.showShortCenter("Maaf, Silakan cek koneksi internet Anda.");
+            }
         }
     };
     xhr.open("GET", Api.getUrl("categories/the-muslim-show/catalogs", {number: number}));
