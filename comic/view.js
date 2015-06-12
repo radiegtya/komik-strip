@@ -1,7 +1,10 @@
 createViewPage = function(obj) {
     var page = tabris.create("Page", {
-        title: "#" + obj.fields.number + ". " + obj.title
+        title: "#" + obj.fields.number + ". " + obj.title,
     });
+
+    //call loading
+    Spinner.get().appendTo(page);
 
     var scrollView = tabris.create("ScrollView", {
         layoutData: {left: 0, right: 0, top: 0, bottom: 50}
@@ -25,6 +28,10 @@ createViewPage = function(obj) {
                         layoutData: {left: 0, top: 0, right: 0},
                         url: models[0].image,
                     }).appendTo(contentComposite);
+
+                    //hide loading
+                    Spinner.hide();
+
                 } else {
                     window.plugins.toast.showShortCenter("Maaf, Silakan cek koneksi internet Anda.");
                 }
@@ -43,7 +50,7 @@ createViewPage = function(obj) {
     //footer comment image, onclick open comment page
     var commentImage = tabris.create("ImageView", {
         layoutData: {top: 15, left: 10, width: 25, height: 25},
-        image: {src: "images/comment.png"},
+        image: {src: "comic/images/comment.png"},
     }).on("tap", function(target) {
         createCommentPage(obj).open();
     }).appendTo(footerComposite);
@@ -51,7 +58,7 @@ createViewPage = function(obj) {
     //footer next image, onclick go to next chapter
     var nextImage = tabris.create("ImageView", {
         layoutData: {top: 15, right: 10, width: 25, height: 25},
-        image: {src: "images/next.png"},
+        image: {src: "comic/images/next.png"},
     }).on("tap", function(target) {
         goToPage(Number(obj.fields.number) + 1);
     }).appendTo(footerComposite);
@@ -66,7 +73,7 @@ createViewPage = function(obj) {
     //footer prev image, onclick go to prev chapter
     var prevImage = tabris.create("ImageView", {
         layoutData: {top: 15, right: [nextImage, 50], width: 25, height: 25},
-        image: {src: "images/prev.png"},
+        image: {src: "comic/images/prev.png"},
     }).on("tap", function(target) {
         goToPage(Number(obj.fields.number) - 1);
     }).appendTo(footerComposite);
@@ -78,7 +85,7 @@ function goToPage(number) {
     if (number == 0) {
         window.plugins.toast.showShortCenter("Maaf, halaman tidak ditemukan");
         return false;
-    }
+    }   
 
     var xhr = new tabris.XMLHttpRequest();
     xhr.onreadystatechange = function() {

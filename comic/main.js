@@ -1,11 +1,13 @@
 var viewModule = require("./view.js");
 var commentModule = require("./comment.js");
 var apiModule = require('../api/config.js');
+var spinnerModule = require('../helpers/spinner/main.js');
 var moment = require('moment');
 
 var MARGIN_X_SMALL = 2;
 var MARGIN_SMALL = 4;
 var MARGIN = 8;
+
 
 
 var page = tabris.create("Page", {
@@ -14,6 +16,9 @@ var page = tabris.create("Page", {
     style: ["FULLSCREEN"]
 });
 
+
+//call loading
+Spinner.get().appendTo(page);
 
 var scrollView = tabris.create("ScrollView", {
     layoutData: {left: 0, right: 0, top: 0, bottom: 0}
@@ -35,7 +40,7 @@ var descTextView = tabris.create("TextView", {
     layoutData: {left: 30, top: [titleTextView, 5]},
     markupEnabled: true,
     text: "",
-    textColor: "black",
+    textColor: "white",
 }).appendTo(scrollView);
 
 scrollView.on("resize", function(widget, bounds) {
@@ -53,7 +58,7 @@ scrollView.on("resize", function(widget, bounds) {
                 var image = encodeURI(model.image.trim());
 
                 titleTextView.set("text", model.title);
-                descTextView.set("text", model.seoDescription);
+                descTextView.set("text", "<b>" + model.seoDescription + "</b>");
                 bgImageView.set("image", {src: image, width: bounds.width, height: bounds.width});
             } else {
                 window.plugins.toast.showShortCenter("Maaf, Silakan cek koneksi internet Anda.");
