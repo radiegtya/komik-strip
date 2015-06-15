@@ -13,6 +13,8 @@ createCommentPage = function(obj) {
 }
 
 function getUrlComment(identifier, shortname) {
-    return "http://piyiku.biz/disqus?identifier=" + identifier + "&shortname=" + shortname;
+    return "http://piyiku.biz/tabris-helpers/disqus/embed.php?identifier=" + identifier + "&shortname=" + shortname;
 }
+
+
       
